@@ -1,76 +1,109 @@
 #include "main.h"
 #include <stdarg.h>
-#include <stddef.h>
 
 /**
- * printchar - prints out characters
- * @c: character to be printed
- */
-
-void printchar(va_list list)
-{
-	_putchar(va_arg(list, int));
-}
-
-/**
- * printstr - prints out strings
- * @str: string to be printed
- */
-
-void printstr(va_list list)
-{
-	int i;
-	char *s = va_arg(list, char *);
-
-	if (s != NULL)
-	{
-		for (i = 0; s[i]; i++)
-			_putchar(s[i]);
-	}
-}
-
-/**
- * _printf - prints out arguments passed to it
- * @str: string to be printed
- */
+ * _printf - Produces output according to a format
+ * @format: Is a character string. The format string
+ * is composed of zero or more directives
+ *
+ * Return: The number of characters printed (excluding
+ * the null byte used to end output to strings)
+ **/
 
 int _printf(const char *format, ...)
 {
 	va_list ap;
-	unsigned int i;
+        int size;
 
-	flag type_list[] = {
-		{ "c", printchar },
-		{ "s", printstr }
-	};
+	if (format == NULL)
+		return (-1);
+
+	size = _strlen(format);
+	if (size <= 0)
+		return (0);
 
 	va_start(ap, format);
-	for (i = 0; format[i]; i++)
+	size = formatter(format, ap);
+
+	_putchar(-1);
+	va_end(args);
+
+	return (size);
+}
+
+/**
+ * formatter - controls the format of the string to be printed
+ * @str: String format
+ * @list: List of auguments
+ * Return: Total size of argument including the size of the string arguments
+ */
+
+int formatter(const char *str, va_list list)
+{
+	int size, i, aug;
+
+	size = 0;
+	for (i = 0; str[i]; i++)
 	{
-		if (format[i] != '%')
-			_putchar(format[i]);
-		else
+		if (str[i] == '%')
 		{
-			if (format[i + 1] == 'c')
-			{
-				type_list[0].f(ap);
-				i++;
-			}
+			aug = percent_formatter(str, list, &i);
+			if (aug == -1)
+				return (-1);
 
-			else if (format[i + 1] == 's')
-			{
-				type_list[1].f(ap);
-				i++;
-			}
-
-			else if (format[i + 1] == '%')
-				_putchar('%');
-
-			else
-			  _putchar('%');
+			size += aug;
+			continue;
 		}
+
+		_putchar(str[i]);
+		size += 1;
 	}
 
-	va_end(ap);
-	return (i);
+	return (size);
+}
+
+/**
+ * percent_formatter - controls the selection specifiers
+ * @str: String format
+ * @list: list of arguments
+ * @i: pointer integer Iterator
+ * Return: size of the numbers of the elements printed including the sub strings
+ */
+
+{
+	int size, j, number_formats;
+	flag formats[] = {
+		{'s', print_string}, {'c', print_char},
+		{'d', print_integer}, {'i', print_integer},
+		{'b', print_binary}, {'u', print_unsigned},
+		{'o', print_octal}, {'x', print_hexadecimal_low},
+		{'X', print_hexadecimal_upp}, {'p', print_pointer},
+		{'r', print_rev_string}, {'R', print_rot}
+	};
+
+	*i = *i + 1;
+
+	if (str[*i] == '\0')
+		return (-1);
+
+	if (str[*i] == '%')
+	{
+		_putchar('%');
+		return (1);
+	}
+
+	number_formats = sizeof(f) / sizeof(formats[0]);
+	for (size = j = 0; j < number_formats; j++)
+	{
+		if (str[*i] == formats[j].type)
+		{
+			size = formats[j].f(list);
+			return (size);
+		}
+
+	}
+
+	_putchar('%'), _putchar(str[*i]);
+
+	return (2);
 }
