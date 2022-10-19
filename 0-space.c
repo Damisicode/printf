@@ -21,8 +21,11 @@ void printstr(va_list list)
 	int i;
 	char *s = va_arg(list, char *);
 
-	for (i = 0; s[i]; i++)
-		_putchar(s[i]);
+	if (s != NULL)
+	{
+		for (i = 0; s[i]; i++)
+			_putchar(s[i]);
+	}
 }
 
 /**
@@ -58,10 +61,12 @@ int _printf(const char *format, ...)
 				type_list[1].f(ap);
 				i++;
 			}
+
+			else
+				_putchar('%');
 		}
 	}
 
 	va_end(ap);
 	return (i);
-
 }
