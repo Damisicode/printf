@@ -40,11 +40,11 @@ int buffer(char);
  * @type: Format
  * @f: The function associated
  **/
-typedef struct _format
+typedef struct flags
 {
 	char type;
 	int (*f)(va_list);
-} format;
+} flag;
 
 
 #endif

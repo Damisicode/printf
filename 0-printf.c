@@ -70,6 +70,7 @@ int formatter(const char *str, va_list list)
  * Return: size of the numbers of the elements printed including the sub strings
  */
 
+int percent_formatter(const char *str, va_list list, int *i)
 {
 	int size, j, number_formats;
 	flag formats[] = {
@@ -92,7 +93,7 @@ int formatter(const char *str, va_list list)
 		return (1);
 	}
 
-	number_formats = sizeof(f) / sizeof(formats[0]);
+	number_formats = sizeof(formats) / sizeof(formats[0]);
 	for (size = j = 0; j < number_formats; j++)
 	{
 		if (str[*i] == formats[j].type)
