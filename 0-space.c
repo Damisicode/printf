@@ -33,7 +33,7 @@ void printstr(va_list list)
 int _printf(const char *format, ...)
 {
 	va_list ap;
-	unsigned int i, j;
+	unsigned int i;
 
 	flag type_list[] = {
 		{ "c", printchar },
