@@ -14,8 +14,8 @@ char *itoa(long int, int);
 int _printf(const char *, ...);
 
 /* handler.c */
-int handler(const char *, va_list);
-int percent_handler(const char *, va_list, int *);
+int formatter(const char *, va_list);
+int percent_formatter(const char *, va_list, int *);
 
 /* printers */
 int print_string(va_list);

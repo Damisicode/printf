@@ -26,7 +26,7 @@ int _printf(const char *format, ...)
 	size = formatter(format, ap);
 
 	_putchar(-1);
-	va_end(args);
+	va_end(ap);
 
 	return (size);
 }
